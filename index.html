@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Sensei FR • Official Hub</title>
+
+<link rel="icon" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+html,body{
+margin:0;
+height:100%;
+overflow:hidden;
+font-family:"Space Grotesk",sans-serif;
+background:#050505;
+color:white;
+}
+
+/* ===== GOD BACKGROUND ===== */
+canvas{
+position:fixed;
+inset:0;
+}
+
+.bg{
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 20% 20%, rgba(120,120,120,.25), transparent 40%),
+radial-gradient(circle at 80% 60%, rgba(255,255,255,.08), transparent 45%),
+radial-gradient(circle at 50% 100%, rgba(80,80,80,.25), transparent 55%);
+animation:move 16s ease-in-out infinite;
+}
+
+@keyframes move{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.1);}
+}
+
+.noise{
+position:fixed;
+inset:0;
+opacity:.05;
+pointer-events:none;
+background-image:url("https://www.transparenttextures.com/patterns/noise.png");
+}
+
+/* ===== CARD ===== */
+body{
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.card{
+position:relative;
+z-index:5;
+width:min(520px,92vw);
+padding:34px;
+border-radius:28px;
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(45px);
+border:1px solid rgba(255,255,255,.12);
+text-align:center;
+box-shadow:0 0 100px rgba(255,255,255,.05);
+
+opacity:0;
+transform:translateY(25px);
+animation:reveal .9s ease forwards;
+animation-delay:1.8s;
+}
+
+@keyframes reveal{
+to{opacity:1;transform:translateY(0);}
+}
+
+.avatar{
+width:140px;
+height:140px;
+margin:auto;
+padding:6px;
+border-radius:50%;
+background:conic-gradient(#fff,#444,#fff);
+animation:spin 12s linear infinite;
+}
+
+.avatar img{
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
+}
+
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
+
+.title{font-size:44px;margin-top:16px;}
+.bio{opacity:.6;margin-bottom:20px;}
+
+.link{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+height:58px;
+margin:10px 0;
+border-radius:16px;
+text-decoration:none;
+color:white;
+font-weight:700;
+font-size:15px;
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.08);
+transition:.25s;
+}
+
+.link:hover{
+transform:translateY(-5px) scale(1.03);
+box-shadow:0 0 35px var(--glow);
+background:rgba(255,255,255,.08);
+}
+
+/* ===== LOADER (IMPROVED INTRO) ===== */
+.loader{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#050505;
+z-index:999;
+overflow:hidden;
+}
+
+.loader img{
+width:190px;
+height:190px;
+border-radius:50%;
+filter:drop-shadow(0 0 30px white);
+opacity:0;
+transform:scale(.4);
+animation:logoIntro 1s ease forwards;
+}
+
+@keyframes logoIntro{
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+/* smooth exit */
+.loader.exit{
+animation:whoosh .7s ease forwards;
+}
+
+@keyframes whoosh{
+0%{
+transform:translateX(0);
+opacity:1;
+}
+100%{
+transform:translateX(120%);
+opacity:0;
+}
+}
+
+/* credit */
+.credit{
+position:fixed;
+bottom:10px;
+left:50%;
+transform:translateX(-50%);
+font-size:10px;
+opacity:.3;
+z-index:6;
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="c1"></canvas>
+<canvas id="c2"></canvas>
+<canvas id="c3"></canvas>
+
+<div class="bg"></div>
+<div class="noise"></div>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+<img src="logo.png">
+</div>
+
+<!-- CARD -->
+<div class="card">
+
+<div class="avatar">
+<img src="logo.png">
+</div>
+
+<div class="title">Sensei FR</div>
+<div class="bio">Creator • Streams • Community</div>
+
+<a class="link" style="--glow:rgba(255,0,0,.25)" href="https://www.youtube.com/@senseifrfr" target="_blank">
+<i class="fa-brands fa-youtube"></i> Main Channel
+</a>
+
+<a class="link" style="--glow:rgba(0,200,255,.25)" href="https://www.youtube.com/@senseifr-livestream" target="_blank">
+<i class="fa-solid fa-video"></i> Clips Channel
+</a>
+
+<a class="link" style="--glow:rgba(83,252,24,.18)" href="https://kick.com/sensei_fr" target="_blank">
+<i class="fa-solid fa-bolt"></i> Kick
+</a>
+
+<a class="link" style="--glow:rgba(225,48,108,.25)" href="https://www.instagram.com/yairfr12/" target="_blank">
+<i class="fa-brands fa-instagram"></i> Instagram
+</a>
+
+<a class="link" style="--glow:rgba(88,101,242,.25)" href="https://discord.com/invite/Eqx7858MVn" target="_blank">
+<i class="fa-brands fa-discord"></i> Discord
+</a>
+
+<a class="link" style="--glow:rgba(0,255,255,.18)" href="https://www.tiktok.com/@sense1_fr" target="_blank">
+<i class="fa-brands fa-tiktok"></i> TikTok
+</a>
+
+</div>
+
+<div class="credit">Designed by ZaDAV1D</div>
+
+<script>
+
+/* ===== LOADER + WHOOSH ===== */
+window.addEventListener("load",()=>{
+
+const loader=document.getElementById("loader");
+
+function whoosh(){
+const ctx=new (window.AudioContext||window.webkitAudioContext)();
+
+const buffer=ctx.createBuffer(1,ctx.sampleRate*0.5,ctx.sampleRate);
+const data=buffer.getChannelData(0);
+
+for(let i=0;i<buffer.length;i++){
+data[i]=(Math.random()*2-1)*(1-i/buffer.length);
+}
+
+const src=ctx.createBufferSource();
+src.buffer=buffer;
+
+const filter=ctx.createBiquadFilter();
+filter.type="highpass";
+filter.frequency.value=800;
+
+src.connect(filter);
+filter.connect(ctx.destination);
+
+src.start();
+}
+
+setTimeout(()=>{
+whoosh();
+loader.classList.add("exit");
+
+setTimeout(()=>{
+loader.style.display="none";
+},700);
+
+},1400);
+
+});
+
+/* ===== GOD PARTICLES ===== */
+const layers=[
+document.getElementById("c1"),
+document.getElementById("c2"),
+document.getElementById("c3")
+];
+
+const ctxs=layers.map(c=>c.getContext("2d"));
+
+let w,h;
+
+function resize(){
+w=innerWidth;
+h=innerHeight;
+layers.forEach(c=>{
+c.width=w;
+c.height=h;
+});
+}
+
+resize();
+addEventListener("resize",resize);
+
+function make(n){
+return Array.from({length:n},()=>({
+x:Math.random()*w,
+y:Math.random()*h,
+vx:(Math.random()-0.5)*0.4,
+vy:(Math.random()-0.5)*0.4,
+r:Math.random()*1.6+0.3
+}));
+}
+
+const p1=make(70);
+const p2=make(50);
+const p3=make(30);
+
+function connect(ctx,p){
+for(let i=0;i<p.length;i++){
+for(let j=i+1;j<p.length;j++){
+
+let dx=p[i].x-p[j].x;
+let dy=p[i].y-p[j].y;
+let d=Math.sqrt(dx*dx+dy*dy);
+
+if(d<130){
+ctx.beginPath();
+ctx.strokeStyle=`rgba(255,255,255,${1-d/130})`;
+ctx.lineWidth=0.5;
+ctx.moveTo(p[i].x,p[i].y);
+ctx.lineTo(p[j].x,p[j].y);
+ctx.stroke();
+}
+}
+}
+}
+
+function draw(){
+
+ctxs.forEach(c=>c.clearRect(0,0,w,h));
+
+render(ctxs[0],p1,0.3);
+render(ctxs[1],p2,0.6);
+render(ctxs[2],p3,1);
+
+requestAnimationFrame(draw);
+}
+
+function render(ctx,p,s){
+
+ctx.fillStyle="rgba(255,255,255,0.6)";
+
+for(let i of p){
+
+i.x+=i.vx*s;
+i.y+=i.vy*s;
+
+if(i.x<0||i.x>w)i.vx*=-1;
+if(i.y<0||i.y>h)i.vy*=-1;
+
+ctx.beginPath();
+ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
+ctx.fill();
+}
+
+connect(ctx,p);
+}
+
+draw();
+
+</script>
+
+</body>
+</html>
