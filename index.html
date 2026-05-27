@@ -92,10 +92,17 @@ object-fit:cover;
 100%{transform:rotate(360deg);}
 }
 
-.title{font-size:44px;margin-top:16px;}
-.bio{opacity:.6;margin-bottom:20px;}
+.title{
+font-size:44px;
+margin-top:16px;
+}
 
-/* ===== LINKS ===== */
+.bio{
+opacity:.6;
+margin-bottom:24px;
+}
+
+/* ===== LINKS (UNIFIED STYLE) ===== */
 .link{
 display:flex;
 align-items:center;
@@ -108,21 +115,40 @@ text-decoration:none;
 color:white;
 font-weight:700;
 font-size:15px;
+
 background:rgba(255,255,255,.03);
 border:1px solid rgba(255,255,255,.08);
+
 transition:.25s;
---glow: rgba(255,255,255,.15);
+position:relative;
+overflow:hidden;
+}
+
+.link::before{
+content:"";
+position:absolute;
+top:0;
+left:-120%;
+width:100%;
+height:100%;
+background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+transition:.5s;
+}
+
+.link:hover::before{
+left:120%;
 }
 
 .link i{
 font-size:20px;
 min-width:22px;
+color:white;
 }
 
 .link:hover{
 transform:translateY(-5px) scale(1.03);
-box-shadow:0 0 25px var(--glow), 0 0 60px var(--glow);
-background:rgba(255,255,255,.08);
+box-shadow:0 0 25px rgba(255,255,255,.12);
+background:rgba(255,255,255,.06);
 }
 
 /* ===== LOADER ===== */
@@ -179,42 +205,46 @@ to{transform:translateX(120%);opacity:0;}
 <div class="title">Sensei FR</div>
 <div class="bio">Creator • Streams • Community</div>
 
-<a class="link" style="--glow:#ff0000" href="https://www.youtube.com/@senseifrfr" target="_blank">
+<a class="link" href="https://www.youtube.com/@senseifrfr" target="_blank">
 <i class="fa-brands fa-youtube"></i><span>YouTube Main</span>
 </a>
 
-<a class="link" style="--glow:#ff4dd2" href="https://www.youtube.com/@senseifr-livestream" target="_blank">
+<a class="link" href="https://www.youtube.com/@senseifr-livestream" target="_blank">
 <i class="fa-solid fa-video"></i><span>Clips Channel</span>
 </a>
 
-<a class="link" style="--glow:#00ff7b" href="https://kick.com/sensei_fr" target="_blank">
+<a class="link" href="https://kick.com/sensei_fr" target="_blank">
 <i class="fa-solid fa-bolt"></i><span>Kick</span>
 </a>
 
-<a class="link" style="--glow:#e1306c" href="https://www.instagram.com/yairfr12/" target="_blank">
+<a class="link" href="https://www.instagram.com/yairfr12/" target="_blank">
 <i class="fa-brands fa-instagram"></i><span>Instagram</span>
 </a>
 
-<a class="link" style="--glow:#5865F2" href="https://discord.com/invite/Eqx7858MVn" target="_blank">
+<a class="link" href="https://discord.com/invite/Eqx7858MVn" target="_blank">
 <i class="fa-brands fa-discord"></i><span>Discord</span>
 </a>
 
-<a class="link" style="--glow:#00f2ea" href="https://www.tiktok.com/@sense1_fr" target="_blank">
+<a class="link" href="https://www.tiktok.com/@sense1_fr" target="_blank">
 <i class="fa-brands fa-tiktok"></i><span>TikTok</span>
+</a>
+
+<a class="link" href="https://streamelements.com/sense1_fr/tip" target="_blank">
+<i class="fa-brands fa-paypal"></i><span>Tip Sensei</span>
 </a>
 
 </div>
 
 <script>
 
-/* ===== LINKS ROTATION ===== */
 const links = [
 "https://www.youtube.com/@senseifrfr",
 "https://www.youtube.com/@senseifr-livestream",
 "https://kick.com/sensei_fr",
 "https://www.instagram.com/yairfr12/",
 "https://discord.com/invite/Eqx7858MVn",
-"https://www.tiktok.com/@sense1_fr"
+"https://www.tiktok.com/@sense1_fr",
+"https://streamelements.com/sense1_fr/tip"
 ];
 
 let i = 0;
@@ -228,7 +258,6 @@ i = (i + 1) % links.length;
 });
 }
 
-/* ===== LOADER ===== */
 window.addEventListener("load",()=>{
 
 const loader=document.getElementById("loader");
@@ -246,7 +275,6 @@ startParticles();
 
 });
 
-/* ===== PARTICLES ===== */
 const c = document.getElementById("c1");
 const ctx = c.getContext("2d");
 
@@ -262,7 +290,7 @@ c.height = h;
 resize();
 addEventListener("resize",resize);
 
-const p = Array.from({length:80},()=>({
+const p = Array.from({length:80},() => ({
 x:Math.random()*w,
 y:Math.random()*h,
 vx:(Math.random()-0.5),
@@ -274,11 +302,11 @@ function loop(){
 ctx.clearRect(0,0,w,h);
 
 for(let n of p){
-n.x+=n.vx;
-n.y+=n.vy;
+n.x += n.vx;
+n.y += n.vy;
 
-if(n.x<0||n.x>w)n.vx*=-1;
-if(n.y<0||n.y>h)n.vy*=-1;
+if(n.x < 0 || n.x > w) n.vx *= -1;
+if(n.y < 0 || n.y > h) n.vy *= -1;
 
 ctx.fillStyle="white";
 ctx.fillRect(n.x,n.y,2,2);
@@ -288,19 +316,6 @@ requestAnimationFrame(loop);
 }
 loop();
 }
-
-/* ===== YOUR BLOCK CODE ===== */
-document.addEventListener('keydown', function(e) {
-    if(e.key === "F12") e.preventDefault();
-    if(e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) e.preventDefault();
-    if(e.ctrlKey && e.key === "U") e.preventDefault();
-    if(e.ctrlKey && (e.key === "c" || e.key === "x" || e.key === "v")) e.preventDefault();
-    if(e.key === "Tab") e.preventDefault();
-});
-
-document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
-document.addEventListener('dragstart', function(e){ e.preventDefault(); });
-document.addEventListener('selectstart', function(e){ e.preventDefault(); });
 
 </script>
 
