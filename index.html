@@ -102,7 +102,7 @@ opacity:.6;
 margin-bottom:24px;
 }
 
-/* ===== LINKS (UNIFIED STYLE) ===== */
+/* ===== LINKS ===== */
 .link{
 display:flex;
 align-items:center;
@@ -275,6 +275,20 @@ startParticles();
 
 });
 
+// ===== אנטי קיצורים / העתקה =====
+document.addEventListener('keydown', function(e) {
+    if(e.key === "F12") e.preventDefault();
+    if(e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) e.preventDefault();
+    if(e.ctrlKey && e.key === "U") e.preventDefault();
+    if(e.ctrlKey && (e.key === "c" || e.key === "x" || e.key === "v")) e.preventDefault();
+    if(e.key === "Tab") e.preventDefault();
+});
+
+document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+document.addEventListener('dragstart', function(e){ e.preventDefault(); });
+document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+
+// ===== חלקיקים =====
 const c = document.getElementById("c1");
 const ctx = c.getContext("2d");
 
