@@ -124,6 +124,14 @@ position:relative;
 overflow:hidden;
 }
 
+#kickStatusButton{
+width:100%;
+font-family:inherit;
+padding:0;
+cursor:pointer;
+box-sizing:border-box;
+}
+
 .link::before{
 content:"";
 position:absolute;
@@ -229,6 +237,10 @@ to{transform:translateX(120%);opacity:0;}
 <i class="fa-solid fa-bolt"></i><span>Kick</span>
 </a>
 
+<button class="link" id="kickStatusButton" type="button" aria-live="polite">
+<i class="fa-solid fa-circle-notch fa-spin"></i><span>Checking Kick status…</span>
+</button>
+
 <a class="link" href="https://www.instagram.com/yairfr12/" target="_blank">
 <i class="fa-brands fa-instagram"></i><span>Instagram</span>
 </a>
@@ -266,6 +278,22 @@ const links = [
 ];
 
 let i = 0;
+const kickStatusButton = document.getElementById("kickStatusButton");
+
+async function updateKickStatus(){
+if(!kickStatusButton) return;
+
+try{
+const response = await fetch("status.json?ts=" + Date.now(), {cache:"no-store"});
+if(!response.ok) throw new Error("status fetch failed");
+const data = await response.json();
+const isLive = Boolean(data && data.live);
+
+kickStatusButton.innerHTML = `<i class="${isLive ? "fa-solid fa-circle-play" : "fa-solid fa-circle-dot"}"></i><span>${isLive ? "🟢 LIVE NOW" : "🔴 OFFLINE"}</span>`;
+}catch(error){
+kickStatusButton.innerHTML = '<i class="fa-solid fa-circle-dot"></i><span>🔴 OFFLINE</span>';
+}
+}
 
 function initLogo(){
 const avatar = document.querySelector(".avatar");
@@ -287,6 +315,8 @@ setTimeout(()=>{
 loader.style.display="none";
 initLogo();
 startParticles();
+updateKickStatus();
+setInterval(updateKickStatus, 60000);
 },700);
 
 },1200);
