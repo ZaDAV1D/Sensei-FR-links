@@ -8,6 +8,7 @@ on:
 jobs:
   check-kick:
     runs-on: ubuntu-latest
+
     permissions:
       contents: write
 
@@ -24,40 +25,65 @@ jobs:
         run: |
           python - <<'PY'
           import json
-          import os
-          import re
           import urllib.request
+          from datetime import datetime, timezone
 
-          url = 'https://kick.com/sensei_fr'
-          headers = {'User-Agent': 'Mozilla/5.0'}
-          req = urllib.request.Request(url, headers=headers)
+          url = "https://kick.com/api/v2/channels/sensei_fr"
 
-          try:
-              with urllib.request.urlopen(req, timeout=20) as resp:
-                  html = resp.read().decode('utf-8', errors='ignore')
-          except Exception:
-              html = ''
+          headers = {
+              "User-Agent": "Mozilla/5.0",
+              "Accept": "application/json"
+          }
 
           live = False
-          lowered = html.lower()
+          viewers = 0
+          title = ""
+          category = ""
 
-          if 'live' in lowered or 'streaming' in lowered or 'is live' in lowered:
-              live = True
+          try:
+              req = urllib.request.Request(url, headers=headers)
 
-          status = {'live': live, 'checkedAt': __import__('datetime').datetime.utcnow().replace(microsecond=0).isoformat() + 'Z'}
+              with urllib.request.urlopen(req, timeout=20) as response:
+                  data = json.loads(response.read().decode("utf-8"))
 
-          with open('status.json', 'w', encoding='utf-8') as f:
+              livestream = data.get("livestream")
+
+              if livestream:
+                  live = True
+                  viewers = livestream.get("viewer_count", 0)
+                  title = livestream.get("session_title", "")
+                  
+                  category_data = livestream.get("categories")
+                  if isinstance(category_data, dict):
+                      category = category_data.get("name", "")
+
+          except Exception as e:
+              print("Kick API error:", e)
+
+          status = {
+              "live": live,
+              "viewers": viewers,
+              "title": title,
+              "category": category,
+              "checkedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+          }
+
+          with open("status.json", "w", encoding="utf-8") as f:
               json.dump(status, f, ensure_ascii=False, indent=2)
-              f.write('\n')
+              f.write("\n")
+
+          print(json.dumps(status, indent=2, ensure_ascii=False))
           PY
 
       - name: Commit status.json if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add status.json
+
           if git diff --cached --quiet; then
-            echo "No changes to status.json"
+            echo "No changes"
           else
             git commit -m "Update Kick status"
             git push
