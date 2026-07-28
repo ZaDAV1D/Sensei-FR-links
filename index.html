@@ -1,355 +1,223 @@
 <!DOCTYPE html>
-<html lang="he">
-
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Sensei FR • Official Hub</title>
-
-<link rel="icon" href="logo.png">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sensei FR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
 <style>
-
-html,body{
-margin:0;
-height:100%;
-overflow:hidden;
-font-family:"Space Grotesk",sans-serif;
-background:#050505;
-color:white;
-}
-
-canvas{
-position:fixed;
-inset:0;
-}
-
-.bg{
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at 20% 20%, rgba(120,120,120,.25), transparent 40%),
-radial-gradient(circle at 80% 60%, rgba(255,255,255,.08), transparent 45%),
-radial-gradient(circle at 50% 100%, rgba(80,80,80,.25), transparent 55%);
-animation:move 16s ease-in-out infinite;
-}
-
-@keyframes move{
-0%,100%{transform:scale(1);}
-50%{transform:scale(1.1);}
-}
-
-.noise{
-position:fixed;
-inset:0;
-opacity:.05;
-pointer-events:none;
-background-image:url("https://www.transparenttextures.com/patterns/noise.png");
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
+font-family:"Space Grotesk",sans-serif;
+background:#040404;
+overflow:hidden;
+color:#fff;
 display:flex;
 justify-content:center;
 align-items:center;
+height:100vh;
 }
-
-/* ===== CARD ===== */
+body:before{
+content:"";
+position:fixed;inset:-20%;
+background:
+radial-gradient(circle at 20% 20%,rgba(255,255,255,.10),transparent 30%),
+radial-gradient(circle at 80% 70%,rgba(255,255,255,.06),transparent 35%),
+radial-gradient(circle at 50% 50%,rgba(90,90,90,.15),transparent 40%);
+filter:blur(40px);
+animation:bg 12s ease-in-out infinite alternate;
+}
+@keyframes bg{
+to{transform:scale(1.15) rotate(8deg)}
+}
+canvas{position:fixed;inset:0}
 .card{
 position:relative;
-z-index:5;
-width:min(520px,92vw);
-padding:34px;
-border-radius:28px;
+z-index:2;
+width:min(540px,92vw);
+padding:38px;
+border-radius:32px;
 background:rgba(255,255,255,.06);
-backdrop-filter:blur(45px);
+backdrop-filter:blur(35px);
 border:1px solid rgba(255,255,255,.12);
-text-align:center;
-box-shadow:0 0 100px rgba(255,255,255,.05);
+box-shadow:0 20px 80px rgba(0,0,0,.6),0 0 40px rgba(255,255,255,.05);
+animation:fade .8s;
+transition:.15s;
+transform-style:preserve-3d;
 }
-
+@keyframes fade{
+from{opacity:0;transform:translateY(40px) scale(.95)}
+to{opacity:1;transform:none}
+}
 .avatar{
-width:140px;
-height:140px;
-margin:auto;
+width:140px;height:140px;margin:auto;
+padding:5px;
 border-radius:50%;
-background:conic-gradient(#fff,#444,#fff);
-animation:spin 12s linear infinite;
-cursor:pointer;
-padding:6px;
+background:conic-gradient(#fff,#555,#fff);
+animation:spin 10s linear infinite;
+box-shadow:0 0 45px rgba(255,255,255,.18);
 }
-
-.avatar img{
-width:100%;
-height:100%;
-border-radius:50%;
-object-fit:cover;
-}
-
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
-
-.title{
+.avatar img{width:100%;height:100%;border-radius:50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+h1{
+margin:18px 0 6px;
 font-size:44px;
-margin-top:16px;
+text-align:center;
+background:linear-gradient(90deg,#fff,#8f8f8f,#fff);
+-webkit-background-clip:text;
+color:transparent;
 }
-
-.bio{
-opacity:.6;
-margin-bottom:24px;
-}
-
-/* ===== LINKS ===== */
+p{text-align:center;opacity:.65;margin-bottom:24px}
 .link{
 display:flex;
-align-items:center;
 justify-content:center;
-gap:14px;
+align-items:center;
+gap:12px;
 height:58px;
 margin:10px 0;
-border-radius:16px;
+border-radius:18px;
 text-decoration:none;
-color:white;
+color:#fff;
 font-weight:700;
-font-size:15px;
-
-background:rgba(255,255,255,.03);
+background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
-
-transition:.25s;
+transition:.28s;
 position:relative;
 overflow:hidden;
 }
-
-.link::before{
+.link:before{
 content:"";
 position:absolute;
-top:0;
 left:-120%;
+top:0;
 width:100%;
 height:100%;
-background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
-transition:.5s;
+background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+transition:.6s;
 }
-
-.link:hover::before{
-left:120%;
-}
-
-.link i{
-font-size:20px;
-min-width:22px;
-color:white;
-}
-
+.link:hover:before{left:120%}
 .link:hover{
-transform:translateY(-5px) scale(1.03);
-box-shadow:0 0 25px rgba(255,255,255,.12);
-background:rgba(255,255,255,.06);
+transform:translateY(-4px) scale(1.02);
+box-shadow:0 0 28px rgba(255,255,255,.15);
+border-color:rgba(255,255,255,.3);
+}
+.gold{
+background:linear-gradient(135deg,rgba(255,200,0,.18),rgba(255,255,255,.05));
+border-color:rgba(255,200,0,.4)
 }
 
-
-.sponsor{
-background:linear-gradient(135deg,rgba(255,215,0,.18),rgba(255,255,255,.05));
-border:1px solid rgba(255,215,0,.45);
-box-shadow:0 0 22px rgba(255,215,0,.15);
-}
-
-.sponsor:hover{
-background:linear-gradient(135deg,rgba(255,215,0,.28),rgba(255,255,255,.08));
-box-shadow:0 0 35px rgba(255,215,0,.35);
-}
-
-/* ===== LOADER ===== */
-.loader{
+#loader{
 position:fixed;
 inset:0;
+background:#050505;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#050505;
-z-index:999;
+flex-direction:column;
+z-index:9999;
+transition:opacity .8s ease,visibility .8s ease;
 }
-
-.loader img{
-width:190px;
-height:190px;
+#loader.hide{
+opacity:0;
+visibility:hidden;
+}
+.loader-logo{
+width:170px;
 border-radius:50%;
-filter:drop-shadow(0 0 30px white);
-animation:pop 1s ease forwards;
+filter:drop-shadow(0 0 30px rgba(255,255,255,.7));
+animation:logoPop 1.2s ease infinite alternate;
 }
-
-@keyframes pop{
-from{transform:scale(.4);opacity:0;}
-to{transform:scale(1);opacity:1;}
+.loader-ring{
+position:absolute;
+width:210px;
+height:210px;
+border-radius:50%;
+border:3px solid rgba(255,255,255,.12);
+border-top-color:#fff;
+animation:spinRing 1.3s linear infinite;
 }
-
-.loader.exit{
-animation:out .7s ease forwards;
+@keyframes spinRing{
+to{transform:rotate(360deg);}
 }
-
-@keyframes out{
-to{transform:translateX(120%);opacity:0;}
+@keyframes logoPop{
+from{transform:scale(.95);}
+to{transform:scale(1.05);}
 }
 
 </style>
 </head>
-
 <body>
 
-<canvas id="c1"></canvas>
-<div class="bg"></div>
-<div class="noise"></div>
-
-<div class="loader" id="loader">
-<img src="logo.png">
+<div id="loader">
+    <div class="loader-ring"></div>
+    <img src="logo.png" class="loader-logo">
 </div>
 
-<div class="card">
+<canvas id="c"></canvas>
 
-<div class="avatar">
-<img src="logo.png">
-</div>
+<div class="card" id="card">
+<div class="avatar"><img src="logo.png"></div>
+<h1>Sensei FR</h1>
+<p>Creator • Streams • Community</p>
 
-<div class="title">Sensei FR</div>
-<div class="bio">Creator • Streams • Community</div>
-
-<a class="link" href="https://www.youtube.com/@senseifrfr" target="_blank">
-<i class="fa-brands fa-youtube"></i><span>YouTube Main</span>
-</a>
-
-<a class="link" href="https://www.youtube.com/@senseifr-livestream" target="_blank">
-<i class="fa-solid fa-video"></i><span>Clips Channel</span>
-</a>
-
-<a class="link" href="https://kick.com/sensei_fr" target="_blank">
-<i class="fa-solid fa-bolt"></i><span>Kick</span>
-</a>
-
-<a class="link" href="https://www.instagram.com/yairfr12/" target="_blank">
-<i class="fa-brands fa-instagram"></i><span>Instagram</span>
-</a>
-
-<a class="link" href="https://discord.com/invite/Eqx7858MVn" target="_blank">
-<i class="fa-brands fa-discord"></i><span>Discord</span>
-</a>
-
-<a class="link" href="https://www.tiktok.com/@sense1_fr" target="_blank">
-<i class="fa-brands fa-tiktok"></i><span>TikTok</span>
-</a>
-
-<a class="link" href="https://streamelements.com/sense1_fr/tip" target="_blank">
-<i class="fa-brands fa-paypal"></i><span>Tip Sensei</span>
-</a>
-
-
-<a class="link sponsor" href="https://s-computers.com/" target="_blank">
-<i class="fa-solid fa-star"></i><span>S מחשבים • Use Code <strong>SENSEI</strong></span>
-</a>
-
+<a class="link" href="https://www.youtube.com/@senseifrfr"><i class="fab fa-youtube"></i>YouTube Main</a>
+<a class="link" href="https://www.youtube.com/@senseifr-livestream"><i class="fas fa-video"></i>Clips Channel</a>
+<a class="link" href="https://kick.com/sensei_fr"><i class="fas fa-bolt"></i>Kick</a>
+<a class="link" href="https://www.instagram.com/yairfr12/"><i class="fab fa-instagram"></i>Instagram</a>
+<a class="link" href="https://discord.com/invite/Eqx7858MVn"><i class="fab fa-discord"></i>Discord</a>
+<a class="link" href="https://www.tiktok.com/@sense1_fr"><i class="fab fa-tiktok"></i>TikTok</a>
+<a class="link" href="https://streamelements.com/sense1_fr/tip"><i class="fab fa-paypal"></i>Tip Sensei</a>
+<a class="link gold" href="https://s-computers.com/"><i class="fas fa-star"></i>S מחשבים • Code SENSEI</a>
 </div>
 
 <script>
-
-const links = [
-"https://www.youtube.com/@senseifrfr",
-"https://www.youtube.com/@senseifr-livestream",
-"https://kick.com/sensei_fr",
-"https://www.instagram.com/yairfr12/",
-"https://discord.com/invite/Eqx7858MVn",
-"https://www.tiktok.com/@sense1_fr",
-"https://streamelements.com/sense1_fr/tip",
-"https://s-computers.com/"
-];
-
-let i = 0;
-
-function initLogo(){
-const avatar = document.querySelector(".avatar");
-
-avatar.addEventListener("click",()=>{
-window.open(links[i],"_blank");
-i = (i + 1) % links.length;
+const card=document.getElementById("card");
+document.addEventListener("mousemove",e=>{
+const x=(e.clientX/window.innerWidth-.5)*12;
+const y=(e.clientY/window.innerHeight-.5)*-12;
+card.style.transform=`rotateX(${y}deg) rotateY(${x}deg)`;
 });
+
+const c=document.getElementById("c"),ctx=c.getContext("2d");
+let w,h,p=[];
+function resize(){
+w=c.width=innerWidth;
+h=c.height=innerHeight;
+p=[...Array(90)].map(()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5}));
 }
+resize();onresize=resize;
+(function loop(){
+ctx.clearRect(0,0,w,h);
+for(let i=0;i<p.length;i++){
+let a=p[i];
+a.x+=a.vx;a.y+=a.vy;
+if(a.x<0||a.x>w)a.vx*=-1;
+if(a.y<0||a.y>h)a.vy*=-1;
+ctx.fillStyle="#fff";
+ctx.fillRect(a.x,a.y,2,2);
+for(let j=i+1;j<p.length;j++){
+let b=p[j];
+let d=Math.hypot(a.x-b.x,a.y-b.y);
+if(d<110){
+ctx.strokeStyle="rgba(255,255,255,"+(1-d/110)*0.15+")";
+ctx.beginPath();
+ctx.moveTo(a.x,a.y);
+ctx.lineTo(b.x,b.y);
+ctx.stroke();
+}
+}
+}
+requestAnimationFrame(loop);
+})();
 
 window.addEventListener("load",()=>{
-
-const loader=document.getElementById("loader");
-
-setTimeout(()=>{
-loader.classList.add("exit");
-
-setTimeout(()=>{
-loader.style.display="none";
-initLogo();
-startParticles();
-},700);
-
-},1200);
-
+    setTimeout(()=>{
+        document.getElementById("loader").classList.add("hide");
+    },1800);
 });
-
-// ===== אנטי קיצורים / העתקה =====
-document.addEventListener('keydown', function(e) {
-    if(e.key === "F12") e.preventDefault();
-    if(e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) e.preventDefault();
-    if(e.ctrlKey && e.key === "U") e.preventDefault();
-    if(e.ctrlKey && (e.key === "c" || e.key === "x" || e.key === "v")) e.preventDefault();
-    if(e.key === "Tab") e.preventDefault();
-});
-
-document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
-document.addEventListener('dragstart', function(e){ e.preventDefault(); });
-document.addEventListener('selectstart', function(e){ e.preventDefault(); });
-
-// ===== חלקיקים =====
-const c = document.getElementById("c1");
-const ctx = c.getContext("2d");
-
-let w,h;
-
-function resize(){
-w = innerWidth;
-h = innerHeight;
-c.width = w;
-c.height = h;
-}
-
-resize();
-addEventListener("resize",resize);
-
-const p = Array.from({length:80},() => ({
-x:Math.random()*w,
-y:Math.random()*h,
-vx:(Math.random()-0.5),
-vy:(Math.random()-0.5)
-}));
-
-function startParticles(){
-function loop(){
-ctx.clearRect(0,0,w,h);
-
-for(let n of p){
-n.x += n.vx;
-n.y += n.vy;
-
-if(n.x < 0 || n.x > w) n.vx *= -1;
-if(n.y < 0 || n.y > h) n.vy *= -1;
-
-ctx.fillStyle="white";
-ctx.fillRect(n.x,n.y,2,2);
-}
-
-requestAnimationFrame(loop);
-}
-loop();
-}
 
 </script>
-
 </body>
 </html>
